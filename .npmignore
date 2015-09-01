@@ -43,5 +43,6 @@ node_modules
 .idea
 *.iml
 
-# Do not commit build output
-lib
+# Do not publish src, only build output
+src
+test

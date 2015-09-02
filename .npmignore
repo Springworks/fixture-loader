@@ -46,3 +46,5 @@ node_modules
 # Do not publish src, only build output
 src
 test
+.eslintrc
+.eslintignore

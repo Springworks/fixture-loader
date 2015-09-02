@@ -34,31 +34,22 @@ describe('getParsedJSON', () => {
   describe('with a path to a JSON file', () => {
 
     it('should return the parsed JSON file', () => {
-      const pkg = fl.getParsedJSON('package.json');
+      const pkg = fl.getParsedJSON('.', 'package');
       pkg.should.be.an.Object();
       pkg.name.should.eql('fixture-loader');
     });
 
     it('should return a new object every time', () => {
-      const a = fl.getParsedJSON('package.json');
-      const b = fl.getParsedJSON('package.json');
+      const a = fl.getParsedJSON('.', 'package');
+      const b = fl.getParsedJSON('.', 'package');
       (a === b).should.be.false();
     });
 
   });
-
-  describe('with a path to a file that is not a JSON file', () => {
-
-    it('should throw an error', () => {
-      fl.getParsedJSON.bind(null, 'README.md').should.throw();
-    });
-
-  });
-
   describe('with a path to a file that does not exist', () => {
 
     it('should throw an error', () => {
-      fl.getParsedJSON.bind(null, 'does-not-exist').should.throw();
+      fl.getParsedJSON.bind(null, '.', 'does-not-exist').should.throw(/ENOENT/);
     });
 
   });
@@ -71,7 +62,7 @@ describe('getString', () => {
   describe('with a path to a file', () => {
 
     it('should return the string contents', () => {
-      const pkg = fl.getString('package.json');
+      const pkg = fl.getString('.', 'package.json');
       pkg.should.be.a.String();
       pkg.should.startWith('{');
     });
@@ -81,7 +72,7 @@ describe('getString', () => {
   describe('with a path to a file that does not exist', () => {
 
     it('should throw an error', () => {
-      fl.getString.bind(null, 'does-not-exist').should.throw();
+      fl.getString.bind(null, '.', 'does-not-exist').should.throw();
     });
 
   });

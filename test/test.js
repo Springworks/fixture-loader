@@ -5,11 +5,11 @@ describe('create', () => {
   describe('with a string path', () => {
 
     it('should return a fixture loader', () => {
-      const fl = createFixtureLoader('.');
-      fl.should.have.keys([
-        'getParsedJSON',
-        'getString',
-        'getParsedXML'
+      const loader = createFixtureLoader('.');
+      loader.should.have.keys([
+        'loadParsedJson',
+        'loadString',
+        'loadParsedXml'
       ]);
     });
 
@@ -18,11 +18,11 @@ describe('create', () => {
   describe('with multiple path components', () => {
 
     it('should return a fixture loader', () => {
-      const fl = createFixtureLoader(__dirname, '..');
-      fl.should.have.keys([
-        'getParsedJSON',
-        'getString',
-        'getParsedXML'
+      const loader = createFixtureLoader(__dirname, '..');
+      loader.should.have.keys([
+        'loadParsedJson',
+        'loadString',
+        'loadParsedXml'
       ]);
     });
 
@@ -30,20 +30,20 @@ describe('create', () => {
 
 });
 
-describe('getParsedJSON', () => {
-  const fl = createFixtureLoader(__dirname, '..');
+describe('loadParsedJson', () => {
+  const loader = createFixtureLoader(__dirname, '..');
 
   describe('with a path to a JSON file', () => {
 
     it('should return the parsed JSON file', () => {
-      const pkg = fl.getParsedJSON('.', 'package');
+      const pkg = loader.loadParsedJson('.', 'package');
       pkg.should.be.an.Object();
       pkg.name.should.eql('fixture-loader');
     });
 
     it('should return a new object every time', () => {
-      const a = fl.getParsedJSON('.', 'package');
-      const b = fl.getParsedJSON('.', 'package');
+      const a = loader.loadParsedJson('.', 'package');
+      const b = loader.loadParsedJson('.', 'package');
       (a === b).should.be.false();
     });
 
@@ -51,20 +51,20 @@ describe('getParsedJSON', () => {
   describe('with a path to a file that does not exist', () => {
 
     it('should throw an error', () => {
-      fl.getParsedJSON.bind(null, '.', 'does-not-exist').should.throw(/ENOENT/);
+      loader.loadParsedJson.bind(null, '.', 'does-not-exist').should.throw(/ENOENT/);
     });
 
   });
 
 });
 
-describe('getString', () => {
-  const fl = createFixtureLoader(__dirname, '..');
+describe('loadString', () => {
+  const loader = createFixtureLoader(__dirname, '..');
 
   describe('with a path to a file', () => {
 
     it('should return the string contents', () => {
-      const pkg = fl.getString('.', 'package.json');
+      const pkg = loader.loadString('.', 'package.json');
       pkg.should.be.a.String();
       pkg.should.startWith('{');
     });
@@ -74,20 +74,20 @@ describe('getString', () => {
   describe('with a path to a file that does not exist', () => {
 
     it('should throw an error', () => {
-      fl.getString.bind(null, '.', 'does-not-exist').should.throw();
+      loader.loadString.bind(null, '.', 'does-not-exist').should.throw();
     });
 
   });
 
 });
 
-describe('getParsedXML', () => {
+describe('loadParsedXml', () => {
   const loader = createFixtureLoader(__dirname, 'fixtures');
 
   describe('with path to an XML file and callback', () => {
 
     it('should callback with XML contents parsed to Javascript object', () => {
-      loader.getParsedXML('.', 'file', (err, xml_file) => {
+      loader.loadParsedXml('.', 'file', (err, xml_file) => {
         should.not.exist(err);
         xml_file.should.be.instanceOf(Object);
         xml_file.should.eql({
@@ -104,7 +104,7 @@ describe('getParsedXML', () => {
 
     it('should fail assertion', () => {
       (function() {
-        loader.getParsedXML('.', 'file');
+        loader.loadParsedXml('.', 'file');
       }).should.throw('Callback must be provided');
     });
 

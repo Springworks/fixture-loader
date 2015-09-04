@@ -51,10 +51,27 @@ describe('loadParsedJson', () => {
     });
 
   });
+
   describe('with a path to a file that does not exist', () => {
 
     it('should throw an error', () => {
       loader.loadParsedJson.bind(null, '.', 'does-not-exist').should.throw(/ENOENT/);
+    });
+
+  });
+
+  describe('omitting fixture_path', () => {
+
+    it('should fail assertion', () => {
+      loader.loadParsedJson.bind(null, null, 'basename').should.throw(/fixture_path must be provided to fixture-loader/);
+    });
+
+  });
+
+  describe('omitting file_basename', () => {
+
+    it('should fail assertion', () => {
+      loader.loadParsedJson.bind(null, 'path').should.throw(/file_basename must be provided to fixture-loader/);
     });
 
   });
@@ -82,6 +99,22 @@ describe('loadString', () => {
 
   });
 
+  describe('omitting fixture_path', () => {
+
+    it('should fail assertion', () => {
+      loader.loadString.bind(null, null, 'filename').should.throw(/fixture_path must be provided to fixture-loader/);
+    });
+
+  });
+
+  describe('omitting filename', () => {
+
+    it('should fail assertion', () => {
+      loader.loadString.bind(null, '/path/to/fixture', null).should.throw(/filename must be provided to fixture-loader/);
+    });
+
+  });
+
 });
 
 describe('loadParsedXml', () => {
@@ -99,6 +132,22 @@ describe('loadParsedXml', () => {
           }
         });
       });
+    });
+
+  });
+
+  describe('omitting fixture_path', () => {
+
+    it('should fail assertion', () => {
+      loader.loadParsedXml.bind(null, null, 'basename', () => {}).should.throw(/fixture_path must be provided to fixture-loader/);
+    });
+
+  });
+
+  describe('omitting file_basename', () => {
+
+    it('should fail assertion', () => {
+      loader.loadParsedXml.bind(null, 'path', null, () => {}).should.throw(/file_basename must be provided to fixture-loader/);
     });
 
   });

@@ -18,7 +18,7 @@ describe('create', () => {
   describe('with multiple path components', () => {
 
     it('should return a fixture loader', () => {
-      const loader = createFixtureLoader(__dirname, '..');
+      const loader = createFixtureLoader(__dirname, 'fixtures');
       loader.should.have.keys([
         'loadParsedJson',
         'loadString',
@@ -31,23 +31,27 @@ describe('create', () => {
 });
 
 describe('loadParsedJson', () => {
-  const loader = createFixtureLoader(__dirname, '..');
+  const loader = createFixtureLoader(__dirname, 'fixtures');
 
   describe('with a path to a JSON file', () => {
 
     it('should return the parsed JSON file', () => {
-      const pkg = loader.loadParsedJson('.', 'package');
-      pkg.should.be.an.Object();
-      pkg.name.should.eql('fixture-loader');
+      const json_file = loader.loadParsedJson('.', 'file');
+      json_file.should.eql({
+        foo: {
+          bar: 'baz'
+        }
+      });
     });
 
     it('should return a new object every time', () => {
-      const a = loader.loadParsedJson('.', 'package');
-      const b = loader.loadParsedJson('.', 'package');
+      const a = loader.loadParsedJson('.', 'file');
+      const b = loader.loadParsedJson('.', 'file');
       (a === b).should.be.false();
     });
 
   });
+
   describe('with a path to a file that does not exist', () => {
 
     it('should throw an error', () => {
@@ -56,15 +60,31 @@ describe('loadParsedJson', () => {
 
   });
 
+  describe('omitting fixture_path', () => {
+
+    it('should fail assertion', () => {
+      loader.loadParsedJson.bind(null, null, 'basename').should.throw(/fixture_path must be provided to fixture-loader/);
+    });
+
+  });
+
+  describe('omitting file_basename', () => {
+
+    it('should fail assertion', () => {
+      loader.loadParsedJson.bind(null, 'path').should.throw(/file_basename must be provided to fixture-loader/);
+    });
+
+  });
+
 });
 
 describe('loadString', () => {
-  const loader = createFixtureLoader(__dirname, '..');
+  const loader = createFixtureLoader(__dirname, 'fixtures');
 
   describe('with a path to a file', () => {
 
     it('should return the string contents', () => {
-      const pkg = loader.loadString('.', 'package.json');
+      const pkg = loader.loadString('.', 'file.json');
       pkg.should.be.a.String();
       pkg.should.startWith('{');
     });
@@ -75,6 +95,22 @@ describe('loadString', () => {
 
     it('should throw an error', () => {
       loader.loadString.bind(null, '.', 'does-not-exist').should.throw();
+    });
+
+  });
+
+  describe('omitting fixture_path', () => {
+
+    it('should fail assertion', () => {
+      loader.loadString.bind(null, null, 'filename').should.throw(/fixture_path must be provided to fixture-loader/);
+    });
+
+  });
+
+  describe('omitting filename', () => {
+
+    it('should fail assertion', () => {
+      loader.loadString.bind(null, '/path/to/fixture', null).should.throw(/filename must be provided to fixture-loader/);
     });
 
   });
@@ -96,6 +132,22 @@ describe('loadParsedXml', () => {
           }
         });
       });
+    });
+
+  });
+
+  describe('omitting fixture_path', () => {
+
+    it('should fail assertion', () => {
+      loader.loadParsedXml.bind(null, null, 'basename', () => {}).should.throw(/fixture_path must be provided to fixture-loader/);
+    });
+
+  });
+
+  describe('omitting file_basename', () => {
+
+    it('should fail assertion', () => {
+      loader.loadParsedXml.bind(null, 'path', null, () => {}).should.throw(/file_basename must be provided to fixture-loader/);
     });
 
   });

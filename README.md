@@ -18,11 +18,11 @@ import { create as createFixtureLoader } from 'fixture-loader';
 
 const fixture_loader = createFixtureLoader(__dirname, 'path/to/fixtures');
 
-const parsed_json = fixture_loader.getParsedJSON(...);
+const parsed_json = fixture_loader.loadParsedJson(...);
 ```
 
 
-### `getParsedJSON(fixture_path, file_basename)`
+### `loadParsedJson(fixture_path, file_basename)`
 
 Loads and parses a JSON file. Extension `.json` is appended to `file_basename`.
 File loading is done synchronously.
@@ -32,11 +32,11 @@ const base_path = '/dev/null';
 const fixture_loader = loader.create(base_path);
 
 // Loads file: /dev/null/path/relative/to/base_path/basename.json
-const parsed_json = fixture_loader.getParsedJSON('/path/relative/to/base_path', 'basename');
+const parsed_json = fixture_loader.loadParsedJson('/path/relative/to/base_path', 'basename');
 ```
 
 
-### `getString(fixture_path, filename)`
+### `loadString(fixture_path, filename)`
 
 Loads a file and returns its string contents. File loading is done synchronously.
 
@@ -45,11 +45,11 @@ const base_path = '/dev/null';
 const fixture_loader = loader.create(base_path);
 
 // Loads file: /dev/null/path/relative/to/base_path/file.xml
-const parsed_json = fixture_loader.getString('/path/relative/to/base_path', 'file.xml');
+const parsed_json = fixture_loader.loadString('/path/relative/to/base_path', 'file.xml');
 ```
 
 
-### `getParsedXML(fixture_path, file_basename, callback)`
+### `loadParsedXml(fixture_path, file_basename, callback)`
 
 Loads and parses an XML file. Extension `.xml` is appended to `file_basename`. 
 Requires a `callback` since XML parsing is done async (using [xml2js](https://github.com/Leonidas-from-XIV/node-xml2js)).
@@ -59,7 +59,7 @@ const base_path = '/dev/null';
 const fixture_loader = loader.create(base_path);
 
 // Loads file: /dev/null/path/relative/to/base_path/basename.xml
-const parsed_json = fixture_loader.getParsedXML('/path/relative/to/base_path', 'basename', (err, parsed_xml) => {
+const parsed_json = fixture_loader.loadParsedXml('/path/relative/to/base_path', 'basename', (err, parsed_xml) => {
   // parsed_xml is a javascript object
 });
 ```

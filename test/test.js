@@ -8,7 +8,8 @@ describe('create', () => {
       const fl = createFixtureLoader('.');
       fl.should.have.keys([
         'getParsedJSON',
-        'getString'
+        'getString',
+        'getParsedXML'
       ]);
     });
 
@@ -20,7 +21,8 @@ describe('create', () => {
       const fl = createFixtureLoader(__dirname, '..');
       fl.should.have.keys([
         'getParsedJSON',
-        'getString'
+        'getString',
+        'getParsedXML'
       ]);
     });
 
@@ -73,6 +75,37 @@ describe('getString', () => {
 
     it('should throw an error', () => {
       fl.getString.bind(null, '.', 'does-not-exist').should.throw();
+    });
+
+  });
+
+});
+
+describe('getParsedXML', () => {
+  const loader = createFixtureLoader(__dirname, 'fixtures');
+
+  describe('with path to an XML file and callback', () => {
+
+    it('should callback with XML contents parsed to Javascript object', () => {
+      loader.getParsedXML('.', 'file', (err, xml_file) => {
+        should.not.exist(err);
+        xml_file.should.be.instanceOf(Object);
+        xml_file.should.eql({
+          foo: {
+            bar: ['bar']
+          }
+        });
+      });
+    });
+
+  });
+
+  describe('omitting callback', () => {
+
+    it('should fail assertion', () => {
+      (function() {
+        loader.getParsedXML('.', 'file');
+      }).should.throw('Callback must be provided');
     });
 
   });

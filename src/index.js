@@ -1,5 +1,7 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
+import { parseString as parseXMLString } from 'xml2js';
+import assert from 'assert';
 
 const cache = Object.create(null);
 
@@ -11,8 +13,16 @@ export function create(...fixture_base_path) {
       const json_filename = `${file_basename}.json`;
       return JSON.parse(getCachedFileContents(base_path, fixture_path, json_filename));
     },
+
     getString(fixture_path, filename) {
       return getCachedFileContents(base_path, fixture_path, filename);
+    },
+
+    getParsedXML(fixture_path, file_basename, callback) {
+      assert(callback, 'Callback must be provided');
+      const xml_filename = `${file_basename}.xml`;
+      const file_contents = getCachedFileContents(base_path, fixture_path, xml_filename);
+      return parseXMLString(file_contents, callback);
     }
   };
 }

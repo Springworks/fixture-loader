@@ -1,6 +1,6 @@
 {
   "name": "fixture-loader",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Load fixture files from a specified dir",
   "main": "lib/index.js",
   "scripts": {

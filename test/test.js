@@ -1,6 +1,6 @@
 import { create as createFixtureLoader } from '../src';
 
-describe('create', () => {
+describe('test/test.js', () => {
 
   describe('with a string path', () => {
 
@@ -9,7 +9,7 @@ describe('create', () => {
       loader.should.have.keys([
         'loadParsedJson',
         'loadString',
-        'loadParsedXml'
+        'loadParsedXml',
       ]);
     });
 
@@ -22,7 +22,7 @@ describe('create', () => {
       loader.should.have.keys([
         'loadParsedJson',
         'loadString',
-        'loadParsedXml'
+        'loadParsedXml',
       ]);
     });
 
@@ -39,8 +39,8 @@ describe('loadParsedJson', () => {
       const json_file = loader.loadParsedJson('.', 'file');
       json_file.should.eql({
         foo: {
-          bar: 'baz'
-        }
+          bar: 'baz',
+        },
       });
     });
 
@@ -128,8 +128,8 @@ describe('loadParsedXml', () => {
         xml_file.should.be.instanceOf(Object);
         xml_file.should.eql({
           foo: {
-            bar: ['bar']
-          }
+            bar: ['bar'],
+          },
         });
       });
     });

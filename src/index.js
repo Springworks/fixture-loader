@@ -27,7 +27,7 @@ export function create(...fixture_base_path) {
       const xml_filename = `${file_basename}.xml`;
       const file_contents = getCachedFileContents(base_path, fixture_path, xml_filename);
       return parseXMLString(file_contents, callback);
-    }
+    },
   };
 }
 

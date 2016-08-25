@@ -6,11 +6,10 @@ describe('test/test.js', () => {
 
     it('should return a fixture loader', () => {
       const loader = createFixtureLoader('.');
-      loader.should.have.keys([
+      loader.should.have.keys(
         'loadParsedJson',
         'loadString',
-        'loadParsedXml',
-      ]);
+        'loadParsedXml');
     });
 
   });
@@ -19,11 +18,10 @@ describe('test/test.js', () => {
 
     it('should return a fixture loader', () => {
       const loader = createFixtureLoader(__dirname, 'fixtures');
-      loader.should.have.keys([
+      loader.should.have.keys(
         'loadParsedJson',
         'loadString',
-        'loadParsedXml',
-      ]);
+        'loadParsedXml');
     });
 
   });

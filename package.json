@@ -15,7 +15,7 @@
     "xml2js": "0.4.17"
   },
   "devDependencies": {
-    "@springworks/test-harness": "1.5.1",
+    "@springworks/test-harness": "1.5.2",
     "babel-cli": "6.18.0",
     "babel-eslint": "7.1.1",
     "babel-preset-es2015-node4": "2.1.0",

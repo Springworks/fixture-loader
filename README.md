@@ -1,8 +1,7 @@
 [![Build Status](https://travis-ci.org/Springworks/node-fixture-loader.svg?branch=master)](https://travis-ci.org/Springworks/node-fixture-loader)
+[![Greenkeeper badge](https://badges.greenkeeper.io/Springworks/node-fixture-loader.svg)](https://greenkeeper.io/)
 
 # fixture-loader
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/Springworks/node-fixture-loader.svg)](https://greenkeeper.io/)
 
 Load fixture files from a specified dir.
 

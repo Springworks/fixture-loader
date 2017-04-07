@@ -12,24 +12,24 @@
     "test": "NODE_ENV=test istanbul cover _mocha"
   },
   "dependencies": {
-    "xml2js": "0.4.17"
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
-    "@springworks/test-harness": "1.5.5",
-    "babel-cli": "6.22.2",
-    "babel-eslint": "7.1.1",
-    "babel-preset-es2015-node4": "2.1.1",
-    "babel-register": "6.22.0",
-    "coveralls": "2.11.16",
-    "eslint": "3.17.1",
-    "eslint-config-springworks": "7.0.7",
-    "eslint-plugin-import": "2.2.0",
-    "eslint-plugin-mocha": "4.8.0",
-    "eslint-plugin-springworks": "2.0.1",
+    "@springworks/test-harness": "^1.5.5",
+    "babel-cli": "^6.22.2",
+    "babel-eslint": "^7.1.1",
+    "babel-preset-es2015-node4": "^2.1.1",
+    "babel-register": "^6.22.0",
+    "coveralls": "^2.11.16",
+    "eslint": "^3.17.1",
+    "eslint-config-springworks": "^7.0.7",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-mocha": "^4.8.0",
+    "eslint-plugin-springworks": "^2.0.1",
     "istanbul": "^1.0.0-alpha.2",
-    "mocha": "3.2.0",
-    "pre-git": "3.14.0",
-    "semantic-release": "6.3.2"
+    "mocha": "^3.2.0",
+    "pre-git": "^3.14.0",
+    "semantic-release": "^6.3.2"
   },
   "config": {
     "pre-git": {

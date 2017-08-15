@@ -12,6 +12,7 @@
     "test": "NODE_ENV=test istanbul cover _mocha"
   },
   "dependencies": {
+    "lodash": "^4.17.4",
     "xml2js": "^0.4.17"
   },
   "devDependencies": {

@@ -2,20 +2,45 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 import { parseString as parseXMLString } from 'xml2js';
 import assert from 'assert';
+import { merge } from 'lodash';
 
 const cache = Object.create(null);
 
 export function create(...fixture_base_path) {
   const base_path = join(...fixture_base_path);
+  let shadow_cache = {};
+
+  const getNextShadowedFixture = (fixture_path, file_basename) => {
+    const json_filename = `${file_basename}.json`;
+    const file_path = join(base_path, fixture_path, json_filename);
+    if (shadow_cache[file_path] && shadow_cache[file_path].length > 0) {
+      return shadow_cache[file_path].shift();
+    }
+    return undefined;
+  };
 
   return {
-    loadParsedJson(fixture_path, file_basename) {
+    shadowPropertiesForJsonFixture(fixture_path, file_basename, fixtures) {
       assert(file_basename, 'file_basename must be provided to fixture-loader');
+      assert(fixture_path, 'fixture_path must be provided to fixture-loader');
+      assert(fixtures, 'fixtures must be provided');
+      assert(Array.isArray(fixtures), 'fixtures must be an array');
 
       const json_filename = `${file_basename}.json`;
-      return JSON.parse(getCachedFileContents(base_path, fixture_path, json_filename));
+      const file_path = join(base_path, fixture_path, json_filename);
+      shadow_cache[file_path] = fixtures;
     },
-
+    clearShadowedProperties() {
+      shadow_cache = {};
+    },
+    loadParsedJson(fixture_path, file_basename) {
+      assert(file_basename, 'file_basename must be provided to fixture-loader');
+      assert(fixture_path, 'fixture_path must be provided to fixture-loader');
+      const json_filename = `${file_basename}.json`;
+      const original_json = JSON.parse(getCachedFileContents(base_path, fixture_path, json_filename));
+      const shadowed_obj = getNextShadowedFixture(fixture_path, file_basename) || {};
+      return merge({}, original_json, shadowed_obj);
+    },
     loadString(fixture_path, filename) {
       return getCachedFileContents(base_path, fixture_path, filename);
     },

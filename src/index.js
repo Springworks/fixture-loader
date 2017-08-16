@@ -38,8 +38,8 @@ export function create(...fixture_base_path) {
       assert(fixture_path, 'fixture_path must be provided to fixture-loader');
       const json_filename = `${file_basename}.json`;
       const original_json = JSON.parse(getCachedFileContents(base_path, fixture_path, json_filename));
-      const shadowed_obj = getNextShadowedFixture(fixture_path, file_basename) || {};
-      return merge({}, original_json, shadowed_obj);
+      const shadowed_obj = getNextShadowedFixture(fixture_path, file_basename);
+      return merge(original_json, shadowed_obj);
     },
     loadString(fixture_path, filename) {
       return getCachedFileContents(base_path, fixture_path, filename);

@@ -53,5 +53,8 @@
   "bugs": {
     "url": "https://github.com/Springworks/node-fixture-loader/issues"
   },
-  "homepage": "https://github.com/Springworks/node-fixture-loader#readme"
+  "homepage": "https://github.com/Springworks/node-fixture-loader#readme",
+  "release": {
+    "analyzeCommits": "simple-commit-message"
+  }
 }

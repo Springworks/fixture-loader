@@ -33,6 +33,18 @@ describe('loadParsedJson', () => {
 
   describe('with a path to a JSON file', () => {
 
+    it('should return the parsed JSON file for arrays', () => {
+      const json_file = loader.loadParsedJson('.', 'array-fixture');
+      json_file.should.eql([{ foo: 'bar' }, { foo: 'more_bar' }]);
+    });
+
+    it('should return the merged JSON for arrays with shadowed array', () => {
+      const extra_stuff = [{ foo: 'merged_bar' }];
+      loader.shadowPropertiesForJsonFixture('.', 'array-fixture', [extra_stuff]);
+      const json_file = loader.loadParsedJson('.', 'array-fixture');
+      json_file.should.eql([{ foo: 'merged_bar' }, { foo: 'more_bar' }]);
+    });
+
     it('should return the parsed JSON file', () => {
       const json_file = loader.loadParsedJson('.', 'file');
       json_file.should.eql({

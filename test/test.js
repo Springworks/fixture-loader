@@ -42,6 +42,54 @@ describe('loadParsedJson', () => {
       });
     });
 
+    it('should return the shadowed properties merged with the original', () => {
+      loader.shadowPropertiesForJsonFixture('.', 'file', [{ foo: { merged_stuff: true } }]);
+      const json_file = loader.loadParsedJson('.', 'file');
+      json_file.should.eql({
+        foo: {
+          bar: 'baz',
+          merged_stuff: true,
+        },
+      });
+    });
+
+    it('should return the shadowed properties merged with the original which may replace properties', () => {
+      loader.shadowPropertiesForJsonFixture('.', 'file', [{ foo: { bar: 'replaced' }, bar: {} }]);
+      const json_file = loader.loadParsedJson('.', 'file');
+      json_file.should.eql({
+        foo: {
+          bar: 'replaced',
+        },
+        bar: {},
+      });
+    });
+
+
+    it('should return the shadowed JSON file if previously shadowed only for the first call', () => {
+      const original_json_file = loader.loadParsedJson('.', 'file');
+      loader.shadowPropertiesForJsonFixture('.', 'file', [{ foo: 'not_bar' }]);
+      loader.loadParsedJson('.', 'file');
+      const json_file = loader.loadParsedJson('.', 'file');
+      json_file.should.eql(original_json_file);
+    });
+
+    it('should return the shadowed fixtures in the correct order', () => {
+      const original_json_file = loader.loadParsedJson('.', 'file');
+      loader.shadowPropertiesForJsonFixture('.', 'file', [{ foo: 'first call' }, { foo: 'second call' }]);
+      should(loader.loadParsedJson('.', 'file')).eql({ foo: 'first call' });
+      should(loader.loadParsedJson('.', 'file')).eql({ foo: 'second call' });
+      should(loader.loadParsedJson('.', 'file')).eql(original_json_file);
+    });
+
+    it('should not return the shadowed JSON file if previously shadowed but then cleared', () => {
+      const original_json_file = loader.loadParsedJson('.', 'file');
+      loader.shadowPropertiesForJsonFixture('.', 'file', [{ foo: 'not_bar' }]);
+      loader.clearShadowedProperties();
+      const json_file = loader.loadParsedJson('.', 'file');
+      json_file.should.eql(original_json_file);
+    });
+
+
     it('should return a new object every time', () => {
       const a = loader.loadParsedJson('.', 'file');
       const b = loader.loadParsedJson('.', 'file');

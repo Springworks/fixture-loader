@@ -112,8 +112,8 @@ describe('loadParsedJson', () => {
 
   describe('with a path to a file that does not exist', () => {
 
-    it('should throw an error', () => {
-      loader.loadParsedJson.bind(null, '.', 'does-not-exist').should.throw(/ENOENT/);
+    it('should not throw an error', () => {
+      loader.loadParsedJson.bind(null, '.', 'does-not-exist').should.not.throw();
     });
 
   });
@@ -151,8 +151,8 @@ describe('loadString', () => {
 
   describe('with a path to a file that does not exist', () => {
 
-    it('should throw an error', () => {
-      loader.loadString.bind(null, '.', 'does-not-exist').should.throw();
+    it('should not throw an error', () => {
+      loader.loadString.bind(null, '.', 'does-not-exist').should.not.throw();
     });
 
   });

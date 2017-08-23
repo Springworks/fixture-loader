@@ -37,7 +37,8 @@ export function create(...fixture_base_path) {
       assert(file_basename, 'file_basename must be provided to fixture-loader');
       assert(fixture_path, 'fixture_path must be provided to fixture-loader');
       const json_filename = `${file_basename}.json`;
-      const original_json = JSON.parse(getCachedFileContents(base_path, fixture_path, json_filename));
+      const file_contents = getCachedFileContents(base_path, fixture_path, json_filename);
+      const original_json = file_contents && JSON.parse(file_contents);
       const shadowed_obj = getNextShadowedFixture(fixture_path, file_basename);
       return merge(original_json, shadowed_obj);
     },
@@ -65,7 +66,16 @@ function getCachedFileContents(base_path, fixture_path, filename) {
   if (file_path in cache) {
     return cache[file_path];
   }
-  const contents = readFileSync(file_path, { encoding: 'utf8' });
-  cache[file_path] = contents;
-  return contents;
+  try {
+    const contents = readFileSync(file_path, { encoding: 'utf8' });
+    cache[file_path] = contents;
+    return contents;
+  }
+  catch (err) {
+    // Handle missing fixtures silently
+    if (err.code === 'ENOENT') {
+      return undefined;
+    }
+    throw err;
+  }
 }

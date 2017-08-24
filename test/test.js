@@ -1,4 +1,4 @@
-import { create as createFixtureLoader } from '../src';
+import { create as createFixtureLoader, MissingFixtureError } from '../src';
 
 describe('test/test.js', () => {
 
@@ -112,8 +112,8 @@ describe('loadParsedJson', () => {
 
   describe('with a path to a file that does not exist', () => {
 
-    it('should not throw an error', () => {
-      loader.loadParsedJson.bind(null, '.', 'does-not-exist').should.not.throw();
+    it('should throw a MissingFixtureError', () => {
+      loader.loadParsedJson.bind(null, '.', 'does-not-exist').should.throw(MissingFixtureError);
     });
 
   });
@@ -151,8 +151,9 @@ describe('loadString', () => {
 
   describe('with a path to a file that does not exist', () => {
 
-    it('should not throw an error', () => {
-      loader.loadString.bind(null, '.', 'does-not-exist').should.not.throw();
+
+    it('should throw a MissingFixtureError', () => {
+      loader.loadParsedJson.bind(null, '.', 'does-not-exist').should.throw(MissingFixtureError);
     });
 
   });

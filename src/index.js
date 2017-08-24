@@ -6,6 +6,13 @@ import { merge } from 'lodash';
 
 const cache = Object.create(null);
 
+export class MissingFixtureError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'MissingFixtureError';
+  }
+}
+
 export function create(...fixture_base_path) {
   const base_path = join(...fixture_base_path);
   let shadow_cache = {};
@@ -72,9 +79,8 @@ function getCachedFileContents(base_path, fixture_path, filename) {
     return contents;
   }
   catch (err) {
-    // Handle missing fixtures silently
     if (err.code === 'ENOENT') {
-      return undefined;
+      throw new MissingFixtureError(`Could not load ${file_path}`);
     }
     throw err;
   }

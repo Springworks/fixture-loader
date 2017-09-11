@@ -2,7 +2,7 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 import { parseString as parseXMLString } from 'xml2js';
 import assert from 'assert';
-import { merge } from 'lodash';
+import { merge, cloneDeep } from 'lodash';
 
 const cache = Object.create(null);
 
@@ -27,6 +27,16 @@ export function create(...fixture_base_path) {
   };
 
   return {
+    replaceJsonFixture(fixture_path, file_basename, fixtures) {
+      assert(file_basename, 'file_basename must be provided to fixture-loader');
+      assert(fixture_path, 'fixture_path must be provided to fixture-loader');
+      assert(fixtures, 'fixtures must be provided');
+      assert(Array.isArray(fixtures), 'fixtures must be an array');
+
+      const json_filename = `${file_basename}.json`;
+      const file_path = join(base_path, fixture_path, json_filename);
+      shadow_cache[file_path] = cloneDeep(fixtures);
+    },
     shadowPropertiesForJsonFixture(fixture_path, file_basename, fixtures) {
       assert(file_basename, 'file_basename must be provided to fixture-loader');
       assert(fixture_path, 'fixture_path must be provided to fixture-loader');
@@ -35,7 +45,10 @@ export function create(...fixture_base_path) {
 
       const json_filename = `${file_basename}.json`;
       const file_path = join(base_path, fixture_path, json_filename);
-      shadow_cache[file_path] = fixtures;
+      const file_contents = getCachedFileContents(base_path, fixture_path, json_filename);
+      const original_json = file_contents && JSON.parse(file_contents);
+      const merged_fixtures = fixtures.map(fixture => merge(cloneDeep(original_json), fixture));
+      shadow_cache[file_path] = merged_fixtures;
     },
     clearShadowedProperties() {
       shadow_cache = {};
@@ -47,7 +60,7 @@ export function create(...fixture_base_path) {
       const file_contents = getCachedFileContents(base_path, fixture_path, json_filename);
       const original_json = file_contents && JSON.parse(file_contents);
       const shadowed_obj = getNextShadowedFixture(fixture_path, file_basename);
-      return merge(original_json, shadowed_obj);
+      return shadowed_obj || original_json;
     },
     loadString(fixture_path, filename) {
       return getCachedFileContents(base_path, fixture_path, filename);

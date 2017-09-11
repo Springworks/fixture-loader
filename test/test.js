@@ -54,6 +54,16 @@ describe('loadParsedJson', () => {
       });
     });
 
+    it('should return the replaced fixture if overridden', () => {
+      loader.replaceJsonFixture('.', 'file', [{ foo: { replaced_stuff: true } }]);
+      const json_file = loader.loadParsedJson('.', 'file');
+      json_file.should.eql({
+        foo: {
+          replaced_stuff: true,
+        },
+      });
+    });
+
     it('should return the shadowed properties merged with the original', () => {
       loader.shadowPropertiesForJsonFixture('.', 'file', [{ foo: { merged_stuff: true } }]);
       const json_file = loader.loadParsedJson('.', 'file');

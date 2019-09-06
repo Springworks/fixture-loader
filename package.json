@@ -1,61 +1,27 @@
 {
   "name": "fixture-loader",
   "description": "Load fixture files from a specified dir",
-  "main": "lib/index.js",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
-    "build": "rm -rf lib && babel src --out-dir lib",
-    "commit": "commit-wizard",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "lint": "eslint .",
-    "prepublish": "npm run build",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "test": "NODE_ENV=test istanbul cover _mocha"
+    "test": "mocha ./test.js"
   },
   "dependencies": {
-    "lodash": "^4.17.4",
-    "xml2js": "^0.4.17"
+    "@springworks/fixture-loader": ">=3001.1.0"
   },
   "devDependencies": {
-    "@springworks/test-harness": "^1.5.6",
-    "babel-cli": "^6.22.2",
-    "babel-eslint": "^7.1.1",
-    "babel-preset-es2015-node4": "^2.1.1",
-    "babel-register": "^6.22.0",
-    "coveralls": "^2.11.16",
-    "eslint": "^4.3.0",
-    "eslint-config-springworks": "^7.0.7",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-mocha": "^4.8.0",
-    "eslint-plugin-springworks": "^2.0.1",
-    "istanbul": "^1.0.0-alpha.2",
-    "mocha": "^3.2.0",
-    "pre-git": "^3.14.0",
-    "semantic-release": "^7.0.1",
-    "simple-commit-message": "^3.3.1"
-  },
-  "config": {
-    "pre-git": {
-      "commit-msg": "conventional"
-    }
-  },
-  "engines": {
-    "node": ">=4",
-    "npm": ">=2.7"
+    "mocha": "^6.2.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Springworks/node-fixture-loader.git"
   },
-  "keywords": [
-    "fixture"
-  ],
   "author": "Springworks",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Springworks/node-fixture-loader/issues"
   },
-  "homepage": "https://github.com/Springworks/node-fixture-loader#readme",
-  "release": {
-    "analyzeCommits": "simple-commit-message"
-  }
+  "homepage": "https://github.com/Springworks/node-fixture-loader#readme"
 }
